@@ -63,8 +63,20 @@ int main(int argc, char *argv[])
 
     /* Send messages to server; echo responses on stdout */
 
+    t_data data;
+
+    printf("Enter an GPIO (17,27): ");
+    scanf("%d", &data.IO);  
+    printf("Gpio = %d",data.IO);
+
+    printf("Enter a period (in secondes): ");
+    scanf("%d", &data.period);  
+    printf("period = %d",data.period);
+
+
+
     for (j = 1; j < 2; j++) {
-        t_data data={40,100};
+        
         printf("data %d: %d %d %p %p",data.IO,data.period,sizeof(data),&data,&(data.IO));
         if (sendto(sfd, &data, sizeof(data), 0, (struct sockaddr *) &svaddr,
                 sizeof(struct sockaddr_un)) != sizeof(data))

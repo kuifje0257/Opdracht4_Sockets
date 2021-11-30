@@ -87,8 +87,21 @@ int main(int argc, char *argv[])
         for (j = 0; j < numBytes; j++)
             buf[j] = toupper((unsigned char) buf[j]);
 
-        received_data.IO++;
-        received_data.period++;
+        // Define gpio as output
+        INP_GPIO(received_data.IO);
+        OUT_GPIO(received_data.IO);
+
+        for (size_t i = 0; i < 10; i++)
+        {
+            // Toggle (blink a led!)
+            GPIO_SET = 1 << received_data.IO;
+            printf("gpio: %d is aan",received_data.IO);
+            sleep(received_data.period);
+
+            GPIO_CLR = 1 << received_data.IO;
+            printf("gpio: %d is uit",received_data.IO);
+            sleep(received_data.period);
+        }
 
         if (sendto(sfd, &received_data,sizeof(received_data), 0, (struct sockaddr *) &claddr, len) !=
                 numBytes)
