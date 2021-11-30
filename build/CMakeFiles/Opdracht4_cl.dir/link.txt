@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/Opdracht4_cl.dir/echo_Client.c.o  -o Opdracht4_cl  -lPJ_RPI -Wl,-Bstatic -ltlpi -Wl,-Bdynamic 
