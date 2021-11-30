@@ -21,7 +21,7 @@
 #include <ctype.h>
 #include "tlpi_hdr.h"
 #include "ud_ucase.h"
-#include "PJ_RPI.h"
+
 #include <stdio.h>
 
 #define SV_SOCK_PATH "/tmp/ud_ucase"
@@ -35,11 +35,6 @@ int main(int argc, char *argv[])
     ssize_t numBytes;
     char resp[BUF_SIZE];
 
-    if(map_peripheral(&gpio) == -1) 
-	{
-		printf("Failed to map the physical GPIO registers into the virtual memory space.\n");
-		return -1;
-	}
 
     /* Create client socket; bind to unique pathname (based on PID) */
 
@@ -65,19 +60,17 @@ int main(int argc, char *argv[])
 
     t_data data;
 
-    printf("Enter an GPIO (17,27): ");
+    printf("Enter an GPIO (17,27,22): "); //pin 11,13,15
     scanf("%d", &data.IO);  
-    printf("Gpio = %d",data.IO);
+    printf("Gpio = %d\n",data.IO);
 
     printf("Enter a period (in secondes): ");
     scanf("%d", &data.period);  
-    printf("period = %d",data.period);
-
-
+    printf("period = %ds\n",data.period);
 
     for (j = 1; j < 2; j++) {
         
-        printf("data %d: %d %d %p %p",data.IO,data.period,sizeof(data),&data,&(data.IO));
+        printf("data %d: %d %d %p %p\n",data.IO,data.period,sizeof(data),&data,&(data.IO));
         if (sendto(sfd, &data, sizeof(data), 0, (struct sockaddr *) &svaddr,
                 sizeof(struct sockaddr_un)) != sizeof(data))
             fatal("sendto");
@@ -88,7 +81,7 @@ int main(int argc, char *argv[])
                         or: numBytes = read(sfd, resp, BUF_SIZE); */
         if (numBytes == -1)
             errExit("recvfrom");
-        printf("Response %d: %d\n", data.IO,data.period);
+        printf("Response %d: %d\n", response.IO,response.period);
     }
     exit(EXIT_SUCCESS);         /* Closes our socket; server sees EOF */
 }
