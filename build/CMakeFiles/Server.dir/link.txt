@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/Server.dir/echo_Server.c.o  -o Server  -Wl,-Bstatic -ltlpi -Wl,-Bdynamic -lPJ_RPI 

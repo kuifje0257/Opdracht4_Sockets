@@ -212,6 +212,9 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //Value Computed by CMake
 Opdracht4_BINARY_DIR:STATIC=/home/pi/EMBED2/Labo/Opdracht4/build
 
+//Dependencies for the target
+Opdracht4_LIB_DEPENDS:STATIC=general;libtlpi.a;
+
 //Value Computed by CMake
 Opdracht4_SOURCE_DIR:STATIC=/home/pi/EMBED2/Labo/Opdracht4
 

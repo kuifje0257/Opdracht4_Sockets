@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/pi/EMBED2/Labo/Opdracht4/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -77,6 +66,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,30 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Opdracht4_cl
+# Target rules for targets named Client
 
 # Build rule for target.
-Opdracht4_cl: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Opdracht4_cl
-.PHONY : Opdracht4_cl
+Client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Client
+.PHONY : Client
 
 # fast build rule for target.
-Opdracht4_cl/fast:
-	$(MAKE) -f CMakeFiles/Opdracht4_cl.dir/build.make CMakeFiles/Opdracht4_cl.dir/build
-.PHONY : Opdracht4_cl/fast
+Client/fast:
+	$(MAKE) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/build
+.PHONY : Client/fast
 
 #=============================================================================
-# Target rules for targets named Opdracht4_sv
+# Target rules for targets named Server
 
 # Build rule for target.
-Opdracht4_sv: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Opdracht4_sv
-.PHONY : Opdracht4_sv
+Server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Server
+.PHONY : Server
 
 # fast build rule for target.
-Opdracht4_sv/fast:
-	$(MAKE) -f CMakeFiles/Opdracht4_sv.dir/build.make CMakeFiles/Opdracht4_sv.dir/build
-.PHONY : Opdracht4_sv/fast
+Server/fast:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/build
+.PHONY : Server/fast
 
 echo_Client.o: echo_Client.c.o
 
@@ -142,7 +142,7 @@ echo_Client.o: echo_Client.c.o
 
 # target to build an object file
 echo_Client.c.o:
-	$(MAKE) -f CMakeFiles/Opdracht4_cl.dir/build.make CMakeFiles/Opdracht4_cl.dir/echo_Client.c.o
+	$(MAKE) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/echo_Client.c.o
 .PHONY : echo_Client.c.o
 
 echo_Client.i: echo_Client.c.i
@@ -151,7 +151,7 @@ echo_Client.i: echo_Client.c.i
 
 # target to preprocess a source file
 echo_Client.c.i:
-	$(MAKE) -f CMakeFiles/Opdracht4_cl.dir/build.make CMakeFiles/Opdracht4_cl.dir/echo_Client.c.i
+	$(MAKE) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/echo_Client.c.i
 .PHONY : echo_Client.c.i
 
 echo_Client.s: echo_Client.c.s
@@ -160,7 +160,7 @@ echo_Client.s: echo_Client.c.s
 
 # target to generate assembly for a file
 echo_Client.c.s:
-	$(MAKE) -f CMakeFiles/Opdracht4_cl.dir/build.make CMakeFiles/Opdracht4_cl.dir/echo_Client.c.s
+	$(MAKE) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/echo_Client.c.s
 .PHONY : echo_Client.c.s
 
 echo_Server.o: echo_Server.c.o
@@ -169,7 +169,7 @@ echo_Server.o: echo_Server.c.o
 
 # target to build an object file
 echo_Server.c.o:
-	$(MAKE) -f CMakeFiles/Opdracht4_sv.dir/build.make CMakeFiles/Opdracht4_sv.dir/echo_Server.c.o
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/echo_Server.c.o
 .PHONY : echo_Server.c.o
 
 echo_Server.i: echo_Server.c.i
@@ -178,7 +178,7 @@ echo_Server.i: echo_Server.c.i
 
 # target to preprocess a source file
 echo_Server.c.i:
-	$(MAKE) -f CMakeFiles/Opdracht4_sv.dir/build.make CMakeFiles/Opdracht4_sv.dir/echo_Server.c.i
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/echo_Server.c.i
 .PHONY : echo_Server.c.i
 
 echo_Server.s: echo_Server.c.s
@@ -187,7 +187,7 @@ echo_Server.s: echo_Server.c.s
 
 # target to generate assembly for a file
 echo_Server.c.s:
-	$(MAKE) -f CMakeFiles/Opdracht4_sv.dir/build.make CMakeFiles/Opdracht4_sv.dir/echo_Server.c.s
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/echo_Server.c.s
 .PHONY : echo_Server.c.s
 
 # Help Target
@@ -196,10 +196,10 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Opdracht4_cl"
-	@echo "... Opdracht4_sv"
+	@echo "... edit_cache"
+	@echo "... Client"
+	@echo "... Server"
 	@echo "... echo_Client.o"
 	@echo "... echo_Client.i"
 	@echo "... echo_Client.s"

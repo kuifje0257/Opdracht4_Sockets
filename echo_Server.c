@@ -17,11 +17,19 @@
 
    See also ud_ucase_cl.c.
 */
+#include <sys/un.h>
+#include <sys/socket.h>
+#include <ctype.h>
+#include "tlpi_hdr.h"
 #include "ud_ucase.h"
 #define BACKLOG 5
 #include "PJ_RPI.h"
 #include <stdio.h>
+
 #include <string.h>
+
+#define SV_SOCK_PATH "/tmp/ud_ucase"
+#define BUF_SIZE 10
 
 int main(int argc, char *argv[])
 {
@@ -36,15 +44,6 @@ int main(int argc, char *argv[])
     ssize_t numBytes;
     socklen_t len;
     char buf[BUF_SIZE];
-
-    //
-    int GpioNumber;
-    int ToggleTime;
-
-    //Gpio als output plaatsen
-    INP_GPIO(GpioNumber);
-	OUT_GPIO(GpioNumber);
-
     
 
     sfd = socket(AF_UNIX, SOCK_DGRAM, 0);       /* Create server socket */
@@ -72,28 +71,13 @@ int main(int argc, char *argv[])
     /* Receive messages, convert to uppercase, and return to client */
 
     for (;;) {
+        t_data received_data;
         len = sizeof(struct sockaddr_un);
-        numBytes = recvfrom(sfd, buf, BUF_SIZE, 0,
+        numBytes = recvfrom(sfd, &received_data, sizeof(received_data), 0,
                             (struct sockaddr *) &claddr, &len);
         if (numBytes == -1)
             errExit("recvfrom");
 
-        //checking recieved message  
-        printf("arvmsg:%s",buf);
-        //splitting recieved message
-        GpioNumber = strtok(buf,",");
-        ToggleTime = strtok(NULL,",");
-        printf("Gpio: %d zal om de %d seconden Aan/Uit gaan\n",GpioNumber,ToggleTime);
-
-        for(int i=0;i<10;i++){
-            // Toggle # (blink a led!)
-            GPIO_SET = 1 << GpioNumber;
-            sleep(ToggleTime);
-
-            GPIO_CLR = 1 << GpioNumber;
-            sleep(ToggleTime);
-            //
-        }
 
 
         printf("Server received %ld bytes from %s\n", (long) numBytes,
@@ -103,7 +87,10 @@ int main(int argc, char *argv[])
         for (j = 0; j < numBytes; j++)
             buf[j] = toupper((unsigned char) buf[j]);
 
-        if (sendto(sfd, buf, numBytes, 0, (struct sockaddr *) &claddr, len) !=
+        received_data.IO++;
+        received_data.period++;
+
+        if (sendto(sfd, &received_data,sizeof(received_data), 0, (struct sockaddr *) &claddr, len) !=
                 numBytes)
             fatal("sendto");
     }
