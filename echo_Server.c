@@ -33,18 +33,18 @@
 
 int main(int argc, char *argv[])
 {
-    if(map_peripheral(&gpio) == -1) 
-	{
-		printf("Failed to map the physical GPIO registers into the virtual memory space.\n");
-		return -1;
-	}
-
     struct sockaddr_un svaddr, claddr;
     int sfd, j;
     ssize_t numBytes;
     socklen_t len;
     char buf[BUF_SIZE];
+    struct bcm2835_peripheral gpio = {GPIO_BASE};
     
+    if(map_peripheral(&gpio) == -1) 
+	{
+		printf("Failed to map the physical GPIO registers into the virtual memory space.\n");
+		return -1;
+	}
 
     sfd = socket(AF_UNIX, SOCK_DGRAM, 0);       /* Create server socket */
     if (sfd == -1)
@@ -78,11 +78,12 @@ int main(int argc, char *argv[])
         if (numBytes == -1)
             errExit("recvfrom");
 
-
-
         printf("Server received %ld bytes from %s\n", (long) numBytes,
                 claddr.sun_path);
         /*FIXME: above: should use %zd here, and remove (long) cast */
+
+        printf("gpio: %d\n",received_data.IO);
+        printf("Period: %d\n",received_data.period);
 
         for (j = 0; j < numBytes; j++)
             buf[j] = toupper((unsigned char) buf[j]);
@@ -91,15 +92,14 @@ int main(int argc, char *argv[])
         INP_GPIO(received_data.IO);
         OUT_GPIO(received_data.IO);
 
-        for (size_t i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             // Toggle (blink a led!)
             GPIO_SET = 1 << received_data.IO;
-            printf("gpio: %d is aan",received_data.IO);
+            printf("gpio: %d is aan\n",received_data.IO);
             sleep(received_data.period);
-
             GPIO_CLR = 1 << received_data.IO;
-            printf("gpio: %d is uit",received_data.IO);
+            printf("gpio: %d is uit\n",received_data.IO);
             sleep(received_data.period);
         }
 
