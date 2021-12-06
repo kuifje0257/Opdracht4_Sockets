@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 
     t_data data;
 
-    printf("Enter an GPIO (17,27,22): "); //pin 11,13,15
+    printf("Enter an GPIO (17,27): "); //pin 11,13
     scanf("%d", &data.IO);  
     printf("Gpio = %d\n",data.IO);
 
